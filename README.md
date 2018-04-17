@@ -26,3 +26,9 @@ Correr el script que nos generará todo lo nombrado anteriormente es tan simple 
 localhost/ormfactory/creator-update/InitORM.php
 
 Por supuesto deberá cambiar si es necesario la dirección 'localhost' por la que se encuentre en su maquina o server. 
+
+Template entidad generada:
+https://gist.github.com/diegoofernandez/f95cd6095d537dcfab90811b8a06a464
+
+Load de clases generado: 
+https://gist.github.com/diegoofernandez/b9d81a717f1ef1b8106cf120e42685f6

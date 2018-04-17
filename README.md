@@ -88,3 +88,35 @@ El carácter para cerrar una tabla y comenzar otra es la barra vertical ( | ), e
 `nameTable$campo-tipo-255$campo-tipo-255|nameTable2$campo2-tipo2-255`
 
 Hay que tener cuidado con este carácter, solo debemos indicarlo si vamos a seguir escribiendo más tablas, si no, no es necesario. En el ejemplo vemos que al terminar la segunda tabla no indicamos la barra vertical. 
+
+# Pasos para usar ormfactory
+1. Descargar el proyecto.
+2. Colocar la carpeta general 'ormfactory' dentro de localhost o servidor. 
+3. Indicar en 'config_db.json' los valores de: conexión y creación de base de datos, creación de tablas. 
+4. Ir al navegador e indicar la siguiente ruta: localhost/ormfactory/creator-update/InitORM.php 
+5. Copiar la carpeta generada 'Entitys' y moverla al directorio de nuestro proyecto. 
+6. Para hacer uso de cada entidad simplemente tenemos que llamar al script 'load.php' de la siguiente manera: require_once 'Entitys/requeriments/load.php';
+7. *Recordar que a los setters y getters se los accede de la siguiente manera: getNombreCampo() y setNombreCampo()
+
+## Funciones extras en cada entidad:
+
+`getAll()`
+
+Nos devolverá todos los datos de la entidad instanciada. 
+
+`deleteAll()`
+
+CUIDADO: eliminará la fila completa de la tabla. 
+
+## Crear nuevo objeto con la entidad: 
+`$objDemo = new MyEntity("data1", "data2", etc.);`
+
+## Instanciar la entidad con un dato ya existente en la base de datos:
+
+`$objDemo = new MyEntity();`<br>
+`$objDemo->recoveryAll($data);`
+
+El parámetro que recibe la función 'recoveryAll' es el **id** de la fila que queramos recuperar.
+
+## Última consideración importante: 
+Todas las tablas deben llevar el campo 'id' y el mismo debe llamarse por supuesto 'id'. No es necesario que el mismo sea auto incrementa-ble. 

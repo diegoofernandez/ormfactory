@@ -21,13 +21,13 @@ class ReadJson {
     public function constructStringSql() {
 
 
-        if ($this->recipeClean != null) {
+        //if ($this->recipeClean != null) {
             
-            $cantidad_tablas = count($this->recipeClean[0]);
-            $tabla_actual = 1;
+          //  $cantidad_tablas = count($this->recipeClean[0]);
+            //$tabla_actual = 1;
             
             //for capa 1
-            for ($i = 0; $i <= count($this->recipeClean[0])-1; $i++) {
+            /*for ($i = 0; $i <= count($this->recipeClean[0])-1; $i++) {
                 
                 $capaTemporal = explode("$", $this->recipeClean[0][$i]);
                 $nombreTabla = $capaTemporal[0];
@@ -457,15 +457,15 @@ class ReadJson {
                 /*if($tabla_actual == $cantidad_tablas){
                     $this->stringSql = $this->stringSql.")";
                 }*/
-                array_push($this->tablesSql, $this->stringSql);
-                $tabla_actual++;
-            }#fin de for capa 1
-        } else {
+                //array_push($this->tablesSql, $this->stringSql);
+                //$tabla_actual++;
+            //}#fin de for capa 1
+        //} else {
             //codigo si no existe nombre en recipe	
-            $this->resultSql = false;
-        }#fin de if/else comprobacion nombre en recipe
+            //$this->resultSql = false;
+        //}#fin de if/else comprobacion nombre en recipe
         
-        $this->resultSql = "true";
+        //$this->resultSql = "true";
         
     }#fin de funcion que construye string
 

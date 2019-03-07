@@ -6,19 +6,21 @@
 	
 	class CreatorUpdate{
 
-		private static $run;
-		private static $db; 
-		private static $user;
+		private static $run; //Instance class
+		private static $db; //Object PDO
+		private static $user; 
 		private static $password;
 		private static $host;
-                private static $db_name;
-		public static $result_create_db;
-                public static $result_create_all_tables;
-                public static $result_create_driver;
+        private static $db_name;
+		public static $result_create_db; //true or false - result operation create DB
+        public static $result_create_all_tables; // true or false - result operation create tables
+        public static $result_create_driver; //true or false - resulte operation end records
 
-		##############################
-		# instancia de CreatorUpdate #
-		##############################
+		/**
+         * @param 'host -> usually: localhost', 'user -> user to access to DB', 'passowrd -> password access to DB'
+         * 
+         * @return 'Instance CreatorUpdate' this follow pattern Singleton
+         */
 		public static function prender($host, $user, $password){
 
 			if(!isset(self::$run)){
@@ -27,8 +29,8 @@
 				self::$password = $password;
 				self::$host     = $host;
 				self::$db       = new PDO($string_host, $user, $password);
-				$guardar   = __CLASS__;
-				self::$run = new $guardar;
+				$saveInstance   = __CLASS__;
+				self::$run      = new $saveInstance;
 			}
 			return self::$run;
 
@@ -86,15 +88,15 @@
 
 				$stringCraft = $objRead->retornoConsulta();
                                 
-                                for($i=0; $i<= count($stringCraft)-1; $i++){
-                                    $runTables = self::$db->prepare($stringCraft[$i]);
-                                    if($runTables->execute()){
-                                        echo "Tabla creada correctamente...<br>";
-                                        self::$result_create_all_tables = true;
-                                    }else{
-                                        echo "Error al crear tabla.<br>";
-                                    }
-                                }
+                for($i=0; $i<= count($stringCraft)-1; $i++){
+                    $runTables = self::$db->prepare($stringCraft[$i]);
+                    if($runTables->execute()){
+                        echo "Tabla creada correctamente...<br>";
+                        self::$result_create_all_tables = true;
+                    }else{
+                        echo "Error al crear tabla.<br>";
+                    }
+                }
 
 			}else{
 				echo "Ha fallado la creacion de la consulta para crear las tablas";

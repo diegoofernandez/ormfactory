@@ -2,7 +2,7 @@
 	namespace CreatorUpdate\Run;
 	use \PDO;
 	use CreatorUpdate\Read\Json\ReadJson as read;
-        use CreatorUpdate\Write\Entitys\WriteEntity as write;
+    use CreatorUpdate\Write\Entitys\WriteEntity as write;
 	
 	class CreatorUpdate{
 

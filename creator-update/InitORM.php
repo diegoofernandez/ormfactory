@@ -9,7 +9,7 @@
 
 	$creando_db = $objCreator::accion($data_param->name, 'create');
 	
-        //validacion creacion db y resultados creacion de tablas
+    //validacion creacion db y resultados creacion de tablas
 	if($objCreator::resultCreateDb()){
 		$creando_tables = $objCreator::creandoTablas($data_param->tables);
 	}else{

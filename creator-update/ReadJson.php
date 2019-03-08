@@ -16,7 +16,6 @@ class ReadJson {
         for($i = 0; $i < count($recipe); $i++){
             array_push($this->recipe, $recipe[$i]); 
         }
-
     }
 
     public function constructStringSql() {
@@ -28,7 +27,9 @@ class ReadJson {
             
             //Catch table name
             $nameThisTable = $this->recipe[$i]->name_table; 
-            $this->stringSql = "CREATE TABLE ". $nameThisTable ." (";
+            $this->stringSql = "CREATE TABLE ". $nameThisTable ." ("; 
+            $capas_totales = count($this->recipe[$i]->fields);
+            $capas_actual_totales = 1;
 
             /**
              * Counter to know number of fields and iterate the same
@@ -37,11 +38,8 @@ class ReadJson {
 
                 //explode string field to prepare sql
                 $thisField = explode("|", $this->recipe[$i]->fields[$x]); 
-                if($thisField[0] != "primary_key" && $thisField[0] != "foreign_key"){
-                    $field_name = array_shift($thisField);
-                    $this->stringSql = $this->stringSql.$field_name." ";
-                }
-
+                $longitud_fila = count($thisField);
+                $dato_actual_array = 1;
 
                 /**
                  * Counter to know number of propertys the field single and iterate the same
@@ -56,42 +54,42 @@ class ReadJson {
                             switch($thisField[$z]){
                                     
                                 case 'tinyint':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " TINYINT (" : null;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " TINYINT (" : null;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " TINYINT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'smallint':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " SMALLINT (" : null;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " SMALLINT (" : null;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " SMALLINT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'mediumint':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " MEDIUMINT (" : NULL;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " MEDIUMINT (" : NULL;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " MEDIUMINT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'int':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " INT (" : NULL;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " INT (" : NULL;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " INT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'integer':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " INTEGER (" : NULL;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " INTEGER (" : NULL;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " INTEGER ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'bigint':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " BIGINT (" : NULL;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " BIGINT (" : NULL;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " BIGINT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'float':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " FLOAT (" : NULL;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " FLOAT (" : NULL;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " FLOAT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'double':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " DOUBLE (" : NULL;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " DOUBLE (" : NULL;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " DOUBLRE ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
@@ -116,12 +114,12 @@ class ReadJson {
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'char':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " CHAR (" : null;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " CHAR (" : null;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " CHAR ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'varchar':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? "VARCHAR (" : null;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? "VARCHAR (" : null;
                                     $response_string = ($longitud_personalizada != NULL) ? $longitud_personalizada : " VARCHAR ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
@@ -138,7 +136,7 @@ class ReadJson {
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
                                 case 'text':
-                                    $longitud_personalizada = ($capa_acceso_fila[$z + 1] != "auto") ? " TEXT (" : null;
+                                    $longitud_personalizada = ($thisField[$z + 1] != "auto") ? " TEXT (" : null;
                                     $response_string = ($longitud_personalizada != null) ? $longitud_personalizada : " TEXT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
@@ -158,8 +156,8 @@ class ReadJson {
                                     $response_string = " LONGTEXT ";
                                     $this->stringSql = $this->stringSql . $response_string;
                                     break;
-                                case ctype_digit($capa_acceso_fila[$z]):
-                                    $response_string = $capa_acceso_fila[$z].") ";
+                                case ctype_digit($thisField[$z]):
+                                    $response_string = $thisField[$z].") ";
                                     $this->stringSql = $this->stringSql.$response_string;
                                     break;
                                 case 'auto': 
@@ -170,8 +168,8 @@ class ReadJson {
                                     $this->stringSql = $this->stringSql.$response_string;
                                     break;
                                 default: 
-                                    $datos_anteriores = ((isset($capa_acceso_fila[$z-1]) && $capa_acceso_fila[$z-1] == "primary_key") || (isset($capa_acceso_fila[$z-1]) && $capa_acceso_fila[$z-1] == "foreign_key") || (isset($capa_acceso_fila[$z-2]) && $capa_acceso_fila[$z-2] == "foreign_key") || (isset($capa_acceso_fila[$z-3]) && $capa_acceso_fila[$z-3] == "foreign_key") ) ? null : $capa_acceso_fila[$z];
-                                    $response_string = ($datos_anteriores != null) ? " ".$capa_acceso_fila[$z]." " : 1;
+                                    $datos_anteriores = ((isset($thisField[$z-1]) && $thisField[$z-1] == "primary_key") || (isset($thisField[$z-1]) && $thisField[$z-1] == "foreign_key") || (isset($thisField[$z-2]) && $thisField[$z-2] == "foreign_key") || (isset($thisField[$z-3]) && $thisField[$z-3] == "foreign_key") ) ? null : $thisField[$z];
+                                    $response_string = ($datos_anteriores != null) ? " ".$thisField[$z]." " : 1;
                                     if($response_string != 1):
                                         $this->stringSql = $this->stringSql.$response_string;
                                     endif;
@@ -179,7 +177,7 @@ class ReadJson {
     
                             }
                         }else{//else if the last property
-                            if(end($thisField) == $thisField[$z] && end($this->recipe[$i]->fields) == $this->recipe[$i]->fields[$x]){
+                            if($capas_actual_totales == $capas_totales){
                                 switch ($thisField[$z]) {
                                     case 'tinyint':
                                         $response_string = " TINYINT) ";
@@ -273,8 +271,8 @@ class ReadJson {
                                         $response_string = " LONGTEXT), ";
                                         $this->stringSql = $this->stringSql . $response_string;
                                         break;
-                                    case ctype_digit($capa_acceso_fila[$z]):
-                                        $response_string = $capa_acceso_fila[$z].")) ";
+                                    case ctype_digit($thisField[$z]):
+                                        $response_string = $thisField[$z].")) ";
                                         $this->stringSql = $this->stringSql.$response_string;
                                         break;
                                     case "auto":
@@ -285,15 +283,15 @@ class ReadJson {
                                         $this->stringSql = $this->stringSql.$response_string;
                                         break;
                                     default: 
-                                        $datos_anteriores = ((isset($capa_acceso_fila[$z-1]) && $capa_acceso_fila[$z-1] == "primary_key") || (isset($capa_acceso_fila[$z-1]) && $capa_acceso_fila[$z-1] == "foreign_key") || (isset($capa_acceso_fila[$z-2]) && $capa_acceso_fila[$z-2] == "foreign_key") || (isset($capa_acceso_fila[$z-3]) && $capa_acceso_fila[$z-3] == "foreign_key") ) ? null : $capa_acceso_fila[$z];
-                                        $response_string = ($datos_anteriores != null) ? " ".$capa_acceso_fila[$z].") " : 1;
+                                        $datos_anteriores = ((isset($thisField[$z-1]) && $thisField[$z-1] == "primary_key") || (isset($thisField[$z-1]) && $thisField[$z-1] == "foreign_key") || (isset($thisField[$z-2]) && $thisField[$z-2] == "foreign_key") || (isset($thisField[$z-3]) && $thisField[$z-3] == "foreign_key") ) ? null : $thisField[$z];
+                                        $response_string = ($datos_anteriores != null) ? " ".$thisField[$z].") " : 1;
                                         if($response_string != 1):
                                             $this->stringSql = $this->stringSql.$response_string.",";
                                         endif;
                                         break;
                                 }
                             }else{
-                                switch ($capa_acceso_fila[$z]) {
+                                switch ($thisField[$z]) {
                                     case 'tinyint':
                                         $response_string = " TINYINT, ";
                                         $this->stringSql = $this->stringSql . $response_string;
@@ -386,8 +384,8 @@ class ReadJson {
                                         $response_string = " LONGTEXT, ";
                                         $this->stringSql = $this->stringSql . $response_string;
                                         break;
-                                    case ctype_digit($capa_acceso_fila[$z]):
-                                        $response_string = $capa_acceso_fila[$z]."), ";
+                                    case ctype_digit($thisField[$z]):
+                                        $response_string = $thisField[$z]."), ";
                                         $this->stringSql = $this->stringSql.$response_string;
                                         break;
                                     case "auto":
@@ -398,8 +396,8 @@ class ReadJson {
                                         $this->stringSql = $this->stringSql.$response_string;
                                         break;
                                     default: 
-                                        $datos_anteriores = ((isset($capa_acceso_fila[$z-1]) && $capa_acceso_fila[$z-1] == "primary_key") || (isset($capa_acceso_fila[$z-1]) && $capa_acceso_fila[$z-1] == "foreign_key") || (isset($capa_acceso_fila[$z-2]) && $capa_acceso_fila[$z-2] == "foreign_key") || (isset($capa_acceso_fila[$z-3]) && $capa_acceso_fila[$z-3] == "foreign_key") ) ? null : $capa_acceso_fila[$z];
-                                        $response_string = ($datos_anteriores != null) ? " ".$capa_acceso_fila[$z]." " : 1;
+                                        $datos_anteriores = ((isset($thisField[$z-1]) && $thisField[$z-1] == "primary_key") || (isset($thisField[$z-1]) && $thisField[$z-1] == "foreign_key") || (isset($thisField[$z-2]) && $thisField[$z-2] == "foreign_key") || (isset($thisField[$z-3]) && $thisField[$z-3] == "foreign_key") ) ? null : $thisField[$z];
+                                        $response_string = ($datos_anteriores != null) ? " ".$thisField[$z]." " : 1;
                                         if($response_string != 1):
                                             $this->stringSql = $this->stringSql.$response_string.",";
                                         endif;
@@ -409,8 +407,8 @@ class ReadJson {
                         }
 
                     }else{//if the special property
-
-                        if(end($thisField) == $thisField[$z] && end($this->recipe[$i]->fields) == $this->recipe[$i]->fields[$x]){
+                
+                        if($capas_actual_totales == $capas_totales){
                             if($thisField[$z] == "primary_key"){
                                 $response_string = " PRIMARY KEY (".$thisField[$z+1].")) ";
                                 $this->stringSql = $this->stringSql.$response_string;
@@ -442,12 +440,16 @@ class ReadJson {
 
                     }// 
 
+                    $dato_actual_array++;
+
                 }// End propertys field single
+                $capas_actual_totales++;
 
             }// End Counter fields
             
             //add coding sql for create table
             array_push($this->tablesSql, $this->stringSql);
+            $this->stringSql = "";
 
         }// End Counter Tables
 
@@ -458,6 +460,7 @@ class ReadJson {
 
         //testing
         var_dump($this->stringSql);
+        var_dump($this->tablesSql);
         
     }#fin de funcion que construye string
 

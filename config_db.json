@@ -1,7 +1,16 @@
 {
-	"name": "prueba_base2",
+	"name": "db_name_prueba",
 	"user": "root",
-	"password": "",
+	"password": "root",
 	"host": "localhost",
-	"tables":"utiles$id-int-auto-auto_increment$tipo-varchar-220$precio-int-25$fecha_creacion-varchar-50$primary_key-id|ventas$id-int-auto-auto_increment$cantidad-int-100$articulo_vendido-int-100$fecha_venta-varchar-50$primary_key-id$foreign_key-articulo_vendido-utiles-id"
+	"tables": [
+		{
+			"name_table": "utiles", 
+			"fields": ["id|int|auto|auto_increment", "tipo|varchar|200", "fecha_creacion|varchar|50", "primary_key|id"]
+		},
+		{
+			"name_table": "ventas",
+			"fields": ["id|int|auto|auto_increment", "cantidad|int|100", "articulo_vendido|int|100", "fecha_venta|varchar|50", "primary_key|id", "foreign_key|articulo_vendido|utiles|id"]
+		}
+	]
 }

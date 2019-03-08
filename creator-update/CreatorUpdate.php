@@ -86,10 +86,10 @@
 
 			if($resultRead){
 
-				$stringCraft = $objRead->retornoConsulta();
+				$stringCrafter = $objRead->retornoConsulta();
                                 
-                for($i=0; $i<= count($stringCraft)-1; $i++){
-                    $runTables = self::$db->prepare($stringCraft[$i]);
+                for($i=0; $i<= count($stringCrafter)-1; $i++){
+                    $runTables = self::$db->prepare($stringCrafter[$i]);
                     if($runTables->execute()){
                         echo "Tabla creada correctamente...<br>";
                         self::$result_create_all_tables = true;
